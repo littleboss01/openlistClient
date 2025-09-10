@@ -1,12 +1,12 @@
-package openlist
+package test
 
 import (
 	"fmt"
-
-	openlist "github.com/littleboss01/openlistClient"
+	"openlist"
 )
 
-func main() {
+// ClientTest 测试客户端基本功能
+func ClientTest() {
 	// 1. 创建客户端实例
 	api := openlist.NewOpenListAPI(
 		"http://localhost:5244", // OpenList服务地址
@@ -73,7 +73,6 @@ func main() {
 	fmt.Println("\n=== 使用通用HTTP请求方法 ===")
 
 	// 使用通用HTTP请求方法获取文件信息
-
 	fileInfo2, err := api.GetFileInfo("/remote/docs/test.txt")
 	if err != nil {
 		fmt.Printf("使用通用HTTP请求方法获取文件信息失败: %v\n", err)

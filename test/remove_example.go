@@ -1,12 +1,12 @@
-package main
+package test
 
 import (
 	"fmt"
-	"log"
 	"openlist"
 )
 
-func main() {
+// RemoveExample 演示如何使用删除功能
+func RemoveExample() {
 	// 创建客户端实例
 	api := openlist.NewOpenListAPI(
 		"http://localhost:5244", // OpenList服务地址
@@ -17,7 +17,8 @@ func main() {
 
 	// 登录
 	if ok, err := api.Login(); !ok {
-		log.Fatal("登录失败:", err)
+		fmt.Printf("登录失败: %v\n", err)
+		return
 	}
 
 	// 删除单个文件

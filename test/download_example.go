@@ -1,4 +1,4 @@
-package main
+package test
 
 import (
 	"fmt"
@@ -6,7 +6,8 @@ import (
 	"time"
 )
 
-func main() {
+// DownloadExample 演示如何使用下载功能
+func DownloadExample() {
 	// 创建客户端实例
 	api := openlist.NewOpenListAPI(
 		"http://localhost:5244", // OpenList服务地址
