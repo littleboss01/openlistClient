@@ -2,7 +2,8 @@ package test
 
 import (
 	"fmt"
-	"openlist"
+
+	openlist "github.com/littleboss01/openlistClient"
 )
 
 // RemoveExample 演示如何使用删除功能

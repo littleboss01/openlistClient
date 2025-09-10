@@ -2,8 +2,9 @@ package test
 
 import (
 	"fmt"
-	"openlist"
 	"os"
+
+	openlist "github.com/littleboss01/openlistClient"
 )
 
 // DownloadTest 测试下载功能

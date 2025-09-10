@@ -2,8 +2,9 @@ package test
 
 import (
 	"fmt"
-	"openlist"
 	"time"
+
+	openlist "github.com/littleboss01/openlistClient"
 )
 
 // DownloadExample 演示如何使用下载功能

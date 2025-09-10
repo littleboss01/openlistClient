@@ -2,7 +2,8 @@ package test
 
 import (
 	"fmt"
-	"openlist"
+
+	openlist "github.com/littleboss01/openlistClient"
 )
 
 // ClientTest 测试客户端基本功能

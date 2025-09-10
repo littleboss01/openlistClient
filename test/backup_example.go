@@ -4,10 +4,11 @@ import (
 	"archive/zip"
 	"fmt"
 	"io"
-	"openlist"
 	"os"
 	"sort"
 	"time"
+
+	openlist "github.com/littleboss01/openlistClient"
 )
 
 // BackupExample 演示备份功能
