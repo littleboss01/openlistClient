@@ -1,0 +1,64 @@
+# OpenList
+
+## API Docs
+- auth [token获取](https://openlist.apifox.cn/api-128101241.md): 获取某个用户的临时JWt token，默认48小时过期
+- auth [token获取hash](https://openlist.apifox.cn/api-128101242.md): 获取某个用户的临时JWt token，传入的密码需要在添加-https://github.com/alist-org/alist后缀后再进行sha256
+- auth [生成2FA密钥](https://openlist.apifox.cn/api-128101243.md): 
+- auth [验证2FA code](https://openlist.apifox.cn/api-128101244.md): 
+- auth [获取当前用户信息](https://openlist.apifox.cn/api-128101245.md): 
+- fs [列出文件目录](https://openlist.apifox.cn/api-128101246.md): 
+- fs [获取某个文件/目录信息](https://openlist.apifox.cn/api-128101247.md): 
+- fs [获取目录](https://openlist.apifox.cn/api-128101248.md): 
+- fs [搜索文件或文件夹](https://openlist.apifox.cn/api-128101249.md): 
+- fs [新建文件夹](https://openlist.apifox.cn/api-128101250.md): 
+- fs [重命名文件](https://openlist.apifox.cn/api-128101251.md): 
+- fs [批量重命名](https://openlist.apifox.cn/api-128101252.md): 
+- fs [正则重命名](https://openlist.apifox.cn/api-128101253.md): 
+- fs [移动文件](https://openlist.apifox.cn/api-128101255.md): 
+- fs [聚合移动](https://openlist.apifox.cn/api-128101259.md): 
+- fs [复制文件](https://openlist.apifox.cn/api-128101256.md): 
+- fs [删除文件或文件夹](https://openlist.apifox.cn/api-128101257.md): 
+- fs [删除空文件夹](https://openlist.apifox.cn/api-128101258.md): 
+- fs [添加离线下载](https://openlist.apifox.cn/api-175404336.md): 
+- fs [表单上传文件](https://openlist.apifox.cn/api-128101254.md): 
+- fs [流式上传文件](https://openlist.apifox.cn/api-128101260.md): 
+- public [获取站点设置](https://openlist.apifox.cn/api-128101263.md): 
+- public [ping检测](https://openlist.apifox.cn/api-128101264.md): 连通性ping检测
+- admin > meta [列出元信息](https://openlist.apifox.cn/api-128101265.md): 
+- admin > meta [获取元信息](https://openlist.apifox.cn/api-128101266.md): 
+- admin > meta [新增元信息](https://openlist.apifox.cn/api-128101267.md): 
+- admin > meta [更新元信息](https://openlist.apifox.cn/api-128101268.md): 
+- admin > meta [删除元信息](https://openlist.apifox.cn/api-128101269.md): 
+- admin > user [列出所有用户](https://openlist.apifox.cn/api-128101270.md): 列出所有用户的信息
+- admin > user [列出某个用户](https://openlist.apifox.cn/api-128101271.md): 
+- admin > user [新建用户](https://openlist.apifox.cn/api-128101272.md): 
+- admin > user [更新用户信息](https://openlist.apifox.cn/api-128101273.md): 
+- admin > user [取消某个用户的两步验证](https://openlist.apifox.cn/api-128101274.md): 
+- admin > user [删除用户](https://openlist.apifox.cn/api-128101275.md): 
+- admin > user [删除用户缓存](https://openlist.apifox.cn/api-128101276.md): 
+- admin > storage [创建存储](https://openlist.apifox.cn/api-175457115.md): 
+- admin > storage [更新存储](https://openlist.apifox.cn/api-175457877.md): 
+- admin > storage [列出存储列表](https://openlist.apifox.cn/api-128101277.md): 
+- admin > storage [启用存储](https://openlist.apifox.cn/api-128101278.md): 
+- admin > storage [禁用存储](https://openlist.apifox.cn/api-128101279.md): 
+- admin > storage [查询指定存储信息](https://openlist.apifox.cn/api-128101281.md): 
+- admin > storage [删除指定存储](https://openlist.apifox.cn/api-128101282.md): 
+- admin > storage [重新加载所有存储](https://openlist.apifox.cn/api-128101283.md): 
+- admin > driver [查询所有驱动配置模板列表](https://openlist.apifox.cn/api-128101284.md): 
+- admin > driver [列出驱动名列表](https://openlist.apifox.cn/api-128101285.md): 
+- admin > driver [列出特定驱动信息](https://openlist.apifox.cn/api-128101286.md): 
+- admin > setting [列出设置](https://openlist.apifox.cn/api-128101287.md): 包括永久令牌
+- admin > setting [获取某项设置](https://openlist.apifox.cn/api-128101288.md): 
+- admin > setting [保存设置](https://openlist.apifox.cn/api-128101289.md): 
+- admin > setting [删除设置](https://openlist.apifox.cn/api-128101290.md): 仅用于弃用的设置
+- admin > setting [重置令牌](https://openlist.apifox.cn/api-128101291.md): 
+- admin > setting [设置aria2](https://openlist.apifox.cn/api-128101292.md): 
+- admin > setting [设置qBittorrent](https://openlist.apifox.cn/api-128101293.md): 
+- admin > task > upload [获取任务信息](https://openlist.apifox.cn/api-142468741.md): 
+- admin > task > upload [获取已完成任务](https://openlist.apifox.cn/api-128101294.md): 
+- admin > task > upload [获取未完成任务](https://openlist.apifox.cn/api-128101295.md): 
+- admin > task > upload [删除任务](https://openlist.apifox.cn/api-128101296.md): 
+- admin > task > upload [取消任务](https://openlist.apifox.cn/api-128101297.md): 
+- admin > task > upload [重试任务](https://openlist.apifox.cn/api-128101298.md): 
+- admin > task > upload [清除已完成任务](https://openlist.apifox.cn/api-128101299.md): 
+- admin > task > upload [清除已成功任务](https://openlist.apifox.cn/api-128101300.md): 

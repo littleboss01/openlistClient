@@ -35,20 +35,20 @@ func DownloadTest() {
 
 	// 下载文件
 	fmt.Println("开始下载文件...")
-	
+
 	err = api.DownloadFile(
-		"/test/example.txt",          // 远程文件路径
-		"./downloads/example.txt",    // 本地保存路径
-		progressFunc,                 // 进度回调函数
+		"/test/example.txt",       // 远程文件路径
+		"./downloads/example.txt", // 本地保存路径
+		progressFunc,              // 进度回调函数
 	)
-	
+
 	if err != nil {
 		fmt.Printf("\n文件下载失败: %v\n", err)
 		return
 	}
 
 	fmt.Println("\n文件下载成功!")
-	
+
 	// 验证文件是否存在
 	if _, err := os.Stat("./downloads/example.txt"); err == nil {
 		fmt.Println("文件验证成功: ./downloads/example.txt")

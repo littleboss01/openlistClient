@@ -4,9 +4,8 @@ import (
 	"archive/zip"
 	"fmt"
 	"io"
-	"os"
 	"openlist"
-	"path/filepath"
+	"os"
 	"sort"
 	"time"
 )
@@ -31,46 +30,46 @@ func BackupExample() {
 	sourceDir := "/data"
 	// 备份文件存储目录
 	backupDir := "/backups"
-	
+
 	// 确保备份目录存在
 	err := ensureBackupDir(api, backupDir)
 	if err != nil {
 		fmt.Printf("确保备份目录存在失败: %v\n", err)
 		return
 	}
-	
+
 	// 生成备份文件名（包含时间戳）
 	backupFileName := fmt.Sprintf("backup_%s.zip", time.Now().Format("20060102_150405"))
-	
+
 	// 创建本地备份文件
 	localBackupPath := "./" + backupFileName
 	fmt.Printf("创建备份文件: %s\n", localBackupPath)
-	
+
 	err = createBackupFile(localBackupPath, sourceDir)
 	if err != nil {
 		fmt.Printf("创建备份文件失败: %v\n", err)
 		return
 	}
-	
+
 	// 上传备份文件到OpenList
 	fmt.Println("上传备份文件...")
 	remotePath, err := api.UploadFile(
 		localBackupPath, // 本地备份文件路径
 		backupDir,       // 远程备份目录
 	)
-	
+
 	if err != nil {
 		fmt.Printf("上传备份文件失败: %v\n", err)
 		// 清理本地文件
 		os.Remove(localBackupPath)
 		return
 	}
-	
+
 	fmt.Printf("备份文件上传成功，远程路径: %s\n", remotePath)
-	
+
 	// 清理本地文件
 	os.Remove(localBackupPath)
-	
+
 	// 检查备份目录中的文件列表
 	fmt.Println("检查备份目录中的文件...")
 	listResp, err := api.ListFiles(backupDir, 1, 0, true) // 获取所有文件，不分页
@@ -78,7 +77,7 @@ func BackupExample() {
 		fmt.Printf("列出备份目录失败: %v\n", err)
 		return
 	}
-	
+
 	// 筛选出备份文件（以backup_开头的文件）
 	var backupFiles []openlist.FileInfo
 	for _, item := range listResp.Items {
@@ -86,21 +85,21 @@ func BackupExample() {
 			backupFiles = append(backupFiles, item)
 		}
 	}
-	
+
 	fmt.Printf("找到 %d 个备份文件\n", len(backupFiles))
-	
+
 	// 如果备份文件超过3个，删除最旧的
 	if len(backupFiles) > 3 {
 		// 按修改时间排序，最新的在前
 		sort.Slice(backupFiles, func(i, j int) bool {
 			return backupFiles[i].Modified > backupFiles[j].Modified
 		})
-		
+
 		// 删除超过3个的旧备份文件
 		for i := 3; i < len(backupFiles); i++ {
 			fileToDelete := backupFiles[i]
 			fmt.Printf("删除旧备份文件: %s\n", fileToDelete.Name)
-			
+
 			// 删除文件
 			err := api.Remove(backupDir, []string{fileToDelete.Name})
 			if err != nil {
@@ -113,7 +112,7 @@ func BackupExample() {
 	} else {
 		fmt.Println("备份文件数量未超过3个，无需清理")
 	}
-	
+
 	fmt.Println("备份演示完成")
 }
 

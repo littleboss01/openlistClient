@@ -505,11 +505,3 @@ func (c *OpenListAPI) Remove(dir string, names []string) error {
 
 	return nil
 }
-
-// NewRemoveRequest 创建删除请求参数
-func (c *OpenListAPI) NewRemoveRequest(dir string, names []string) *RemoveRequest {
-	return &RemoveRequest{
-		Dir:   dir,
-		Names: names,
-	}
-}

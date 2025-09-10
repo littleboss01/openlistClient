@@ -29,13 +29,13 @@ func DownloadExample() {
 	// 下载文件
 	fmt.Println("开始下载文件...")
 	startTime := time.Now()
-	
+
 	err := api.DownloadFile(
-		"/remote/docs/test.txt",     // 远程文件路径
-		"./downloaded_test.txt",     // 本地保存路径
-		progressFunc,                // 进度回调函数
+		"/remote/docs/test.txt", // 远程文件路径
+		"./downloaded_test.txt", // 本地保存路径
+		progressFunc,            // 进度回调函数
 	)
-	
+
 	if err != nil {
 		fmt.Printf("文件下载失败: %v\n", err)
 		return
