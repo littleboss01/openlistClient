@@ -121,6 +121,13 @@ err := api.Remove("/remote", []string{"docs"})
 err := backupExample() // 参见test/backup_example.go
 ```
 
+### 检测目录并下载最新版本
+
+```go
+// 检测目录中的版本文件，找出最新版本并下载
+err := versionCheckExample() // 参见test/version_check_example.go
+```
+
 ### 获取文件信息
 
 ```go
