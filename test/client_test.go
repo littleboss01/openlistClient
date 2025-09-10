@@ -2,7 +2,8 @@ package openlist
 
 import (
 	"fmt"
-	"openlist"
+
+	openlist "github.com/littleboss01/openlistClient"
 )
 
 func main() {
