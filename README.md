@@ -5,7 +5,7 @@ OpenList Go Client 是一个用于与 OpenList 文件管理服务进行交互的
 ## 功能特性
 
 - 🔐 用户认证：自动处理登录和令牌管理
-- 📁 文件管理：上传、获取文件信息、列出目录内容
+- 📁 文件管理：上传、下载、获取文件信息、列出目录内容
 - 🔍 文件搜索：根据关键词搜索文件
 - 🌐 代理支持：可配置 HTTP 代理
 - 🔄 自动重试：登录状态自动维护
@@ -16,14 +16,14 @@ OpenList Go Client 是一个用于与 OpenList 文件管理服务进行交互的
 确保您已经安装了 Go 1.16 或更高版本。
 
 ```bash
-go get -u github.com/yourusername/openlist-client
+go get -u github.com/littleboss01/openlistClient
 ```
 
 或者在您的项目目录中初始化 Go 模块：
 
 ```bash
 go mod init your-project-name
-go get github.com/yourusername/openlist-client
+go get github.com/littleboss01/openlistClient
 ```
 
 ## 快速开始
@@ -85,6 +85,18 @@ ok, err := api.Login()
 
 ```go
 remotePath, err := api.UploadFile(localFilePath, remoteDirectory)
+```
+
+### 下载文件（带进度回调）
+
+```go
+// 定义进度回调函数
+progressFunc := func(downloaded, total int64) {
+    fmt.Printf("下载进度: %d/%d bytes\n", downloaded, total)
+}
+
+// 下载文件
+err := api.DownloadFile(remoteFilePath, localFilePath, progressFunc)
 ```
 
 ### 获取文件信息

@@ -1,5 +1,9 @@
 package openlist
 
+// ProgressFunc 进度回调函数类型
+// 参数: 已下载字节数, 总字节数
+type ProgressFunc func(downloaded, total int64)
+
 // FileInfo 文件信息结构体（对应原Python的Dict返回）
 type FileInfo struct {
 	Path     string `json:"path"`     // 文件路径

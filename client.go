@@ -374,3 +374,103 @@ func (c *OpenListAPI) getToken() string {
 	defer c.mu.RUnlock()
 	return c.token
 }
+
+// DownloadFile 从OpenList服务下载文件
+// remotePath: 远程文件路径（如 "/docs/test.txt"）
+// localPath: 本地保存路径
+// progressFunc: 进度回调函数（可选）
+// 返回值: 错误信息
+func (c *OpenListAPI) DownloadFile(remotePath, localPath string, progressFunc ProgressFunc) error {
+	// 先检查登录状态
+	if ok, err := c.Login(); !ok {
+		if err != nil {
+			return fmt.Errorf("登录失败: %w", err)
+		}
+		return fmt.Errorf("登录失败，无法执行文件下载")
+	}
+
+	// 获取文件信息（包含下载地址）
+	fileInfo, err := c.GetFileInfo(remotePath)
+	if err != nil {
+		return fmt.Errorf("获取文件信息失败: %w", err)
+	}
+
+	// 创建HTTP请求
+	req, err := http.NewRequest("GET", fileInfo.URL, nil)
+	if err != nil {
+		return fmt.Errorf("创建下载请求失败: %w", err)
+	}
+
+	// 设置认证头
+	if c.getToken() != "" {
+		req.Header.Set("Authorization", c.getToken())
+	}
+
+	// 发送请求
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		return fmt.Errorf("发送下载请求失败: %w", err)
+	}
+	defer resp.Body.Close()
+
+	// 检查响应状态
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("下载失败，HTTP状态码: %d", resp.StatusCode)
+	}
+
+	// 创建本地文件
+	localFile, err := os.Create(localPath)
+	if err != nil {
+		return fmt.Errorf("创建本地文件失败: %w", err)
+	}
+	defer localFile.Close()
+
+	// 获取文件大小
+	fileSize := fileInfo.Size
+	if fileSize <= 0 {
+		// 如果文件信息中没有大小，尝试从响应头获取
+		if contentLength := resp.Header.Get("Content-Length"); contentLength != "" {
+			fmt.Sscanf(contentLength, "%d", &fileSize)
+		}
+	}
+
+	// 创建带进度回调的Reader
+	var reader io.Reader = resp.Body
+	if progressFunc != nil && fileSize > 0 {
+		reader = &ProgressReader{
+			reader:       resp.Body,
+			total:        fileSize,
+			downloaded:   0,
+			progressFunc: progressFunc,
+		}
+	}
+
+	// 复制数据到本地文件
+	_, err = io.Copy(localFile, reader)
+	if err != nil {
+		return fmt.Errorf("保存文件失败: %w", err)
+	}
+
+	return nil
+}
+
+// ProgressReader 带进度回调的Reader
+type ProgressReader struct {
+	reader       io.Reader
+	total        int64
+	downloaded   int64
+	progressFunc ProgressFunc
+}
+
+// Read 实现io.Reader接口
+func (pr *ProgressReader) Read(p []byte) (int, error) {
+	n, err := pr.reader.Read(p)
+	pr.downloaded += int64(n)
+	
+	// 调用进度回调函数
+	if pr.progressFunc != nil {
+		pr.progressFunc(pr.downloaded, pr.total)
+	}
+	
+	return n, err
+}
