@@ -80,6 +80,12 @@ type ListRequest struct {
 	Refresh  bool   `json:"refresh"`
 }
 
+// RemoveRequest 删除文件或文件夹请求参数
+type RemoveRequest struct {
+	Dir   string   `json:"dir"`   // 目录
+	Names []string `json:"names"` // 文件名列表
+}
+
 // HTTPRequest 通用HTTP请求配置
 type HTTPRequest struct {
 	Method  string            // HTTP方法 (GET, POST, PUT, DELETE等)

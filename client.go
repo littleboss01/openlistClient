@@ -466,11 +466,50 @@ type ProgressReader struct {
 func (pr *ProgressReader) Read(p []byte) (int, error) {
 	n, err := pr.reader.Read(p)
 	pr.downloaded += int64(n)
-	
+
 	// 调用进度回调函数
 	if pr.progressFunc != nil {
 		pr.progressFunc(pr.downloaded, pr.total)
 	}
-	
+
 	return n, err
+}
+
+// Remove 删除文件或文件夹
+// dir: 目录路径
+// names: 要删除的文件或文件夹名称列表
+// 返回值: 错误信息
+func (c *OpenListAPI) Remove(dir string, names []string) error {
+	// 先检查登录状态
+	if ok, err := c.Login(); !ok {
+		if err != nil {
+			return fmt.Errorf("登录失败: %w", err)
+		}
+		return fmt.Errorf("登录失败，无法执行删除操作")
+	}
+
+	// 构造请求体
+	removeReq := RemoveRequest{
+		Dir:   dir,
+		Names: names,
+	}
+
+	// 执行请求
+	if err := c.doRequest(&HTTPRequest{
+		Method: "POST",
+		URL:    fmt.Sprintf("%s/api/fs/remove", c.baseURL),
+		Body:   removeReq,
+	}, nil); err != nil {
+		return fmt.Errorf("删除文件或文件夹失败: %w", err)
+	}
+
+	return nil
+}
+
+// NewRemoveRequest 创建删除请求参数
+func (c *OpenListAPI) NewRemoveRequest(dir string, names []string) *RemoveRequest {
+	return &RemoveRequest{
+		Dir:   dir,
+		Names: names,
+	}
 }

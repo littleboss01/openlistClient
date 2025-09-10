@@ -1,11 +1,11 @@
 # OpenList Go Client
 
-OpenList Go Client 是一个用于与 OpenList 文件管理服务进行交互的 Go 语言客户端库。它提供了简洁的 API 来执行文件上传、下载、搜索和管理等操作。
+OpenList Go Client 是一个用于与 OpenList 文件管理服务进行交互的 Go 语言客户端库。它提供了简洁的 API 来执行文件上传、下载、搜索、删除和管理等操作。
 
 ## 功能特性
 
 - 🔐 用户认证：自动处理登录和令牌管理
-- 📁 文件管理：上传、下载、获取文件信息、列出目录内容
+- 📁 文件管理：上传、下载、删除、获取文件信息、列出目录内容
 - 🔍 文件搜索：根据关键词搜索文件
 - 🌐 代理支持：可配置 HTTP 代理
 - 🔄 自动重试：登录状态自动维护
@@ -97,6 +97,19 @@ progressFunc := func(downloaded, total int64) {
 
 // 下载文件
 err := api.DownloadFile(remoteFilePath, localFilePath, progressFunc)
+```
+
+### 删除文件或文件夹
+
+```go
+// 删除单个文件
+err := api.Remove("/remote/docs", []string{"test.txt"})
+
+// 删除多个文件
+err := api.Remove("/remote/docs", []string{"test1.txt", "test2.txt"})
+
+// 删除文件夹
+err := api.Remove("/remote", []string{"docs"})
 ```
 
 ### 获取文件信息
