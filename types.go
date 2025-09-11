@@ -8,16 +8,16 @@ type ProgressFunc func(downloaded, total int64)
 
 // FileInfo 文件信息结构体（对应原Python的Dict返回）
 type FileInfo struct {
-	Name      string    `json:"name"`     // 文件名
-	Size      int64     `json:"size"`     // 文件大小（字节）
-	IsDir     bool      `json:"is_dir"`   // 是否为目录
-	Modified  time.Time `json:"modified"` // 修改时间
-	Created   time.Time `json:"created"`
-	Sign      string    `json:"sign"`
-	Thumb     string    `json:"thumb"`
-	Type      int64     `json:"type"`
-	HashInfo  string    `json:"hashinfo"`
-	Hash_info string    `json:"hash_info"`
+	Name      string      `json:"name"`     // 文件名
+	Size      int64       `json:"size"`     // 文件大小（字节）
+	IsDir     bool        `json:"is_dir"`   // 是否为目录
+	Modified  time.Time   `json:"modified"` // 修改时间
+	Created   time.Time   `json:"created"`
+	Sign      string      `json:"sign"`
+	Thumb     string      `json:"thumb"`
+	Type      int64       `json:"type"`
+	HashInfo  interface{} `json:"hashinfo"`
+	Hash_info interface{} `json:"hash_info"`
 
 	//list没有get才有
 	Raw_url string      `json:"raw_url"`
