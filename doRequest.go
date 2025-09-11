@@ -13,6 +13,7 @@ func (c *OpenListAPI) doRequest(req *HTTPRequest, result interface{}) error {
 	// 序列化请求体
 	var bodyReader io.Reader
 	if req.Body != nil {
+
 		bodyBytes, err := json.Marshal(req.Body)
 		if err != nil {
 			return fmt.Errorf("序列化请求体失败: %w", err)

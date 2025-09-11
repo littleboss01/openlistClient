@@ -14,7 +14,7 @@ func TestClient(t *testing.T) {
 		"http://localhost:5244", // OpenList服务地址
 		"admin",                 // 用户名
 		"a124149449",            // 密码
-		"",                      // 代理地址（可选，为空则不使用代理）
+		"http://127.0.0.1:8888", // 代理地址（可选，为空则不使用代理）
 	)
 
 	// 2. 测试代理（可选）
@@ -39,6 +39,25 @@ func TestClient(t *testing.T) {
 	}
 	fmt.Printf("目录总文件数: %d，当前页: %d\n", listResp.Total, listResp.Page)
 
+	// 5. 获取文件信息
+	fileInfo, err := api.GetFileInfo("/r2/roundcubemail-1.4.9.7z")
+	if err != nil {
+		fmt.Printf("获取文件信息失败: %v\n", err)
+		return
+	}
+	fmt.Printf("文件大小: %d字节，下载地址: %s\n", fileInfo.Size, fileInfo.Raw_url)
+
+	// 6. 搜索文件
+	results, err := api.SearchFiles("roundcubemail", "/r2")
+	if err != nil {
+		fmt.Printf("文件搜索失败: %v\n", err)
+		return
+	}
+	fmt.Printf("搜索到%d个结果:\n", len(results.Content))
+	for _, res := range results.Content {
+		fmt.Printf("  %s (是否目录: %t)\n", res.Name, res.IsDir)
+	}
+
 	// 4. 上传文件
 	remotePath, err := api.UploadFile(
 		"/local/path/test.txt", // 本地文件路径
@@ -49,26 +68,6 @@ func TestClient(t *testing.T) {
 		return
 	}
 	fmt.Printf("文件上传成功，远程路径: %s\n", remotePath)
-
-	// 5. 获取文件信息
-	fileInfo, err := api.GetFileInfo(remotePath)
-	if err != nil {
-		fmt.Printf("获取文件信息失败: %v\n", err)
-		return
-	}
-	fmt.Printf("文件大小: %d字节，下载地址: %s\n", fileInfo.Size, fileInfo)
-
-	// 6. 搜索文件
-	results, err := api.SearchFiles("test", "/remote/docs")
-	if err != nil {
-		fmt.Printf("文件搜索失败: %v\n", err)
-		return
-	}
-	fmt.Printf("搜索到%d个结果:\n", len(results))
-	for _, res := range results {
-		fmt.Printf("  %s (是否目录: %t)\n", res.Path, res.IsDir)
-	}
-
 	// 演示使用新的请求参数结构体
 
 	// 演示直接使用通用HTTP请求方法

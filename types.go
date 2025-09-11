@@ -18,15 +18,21 @@ type FileInfo struct {
 	Type      int64     `json:"type"`
 	HashInfo  string    `json:"hashinfo"`
 	Hash_info string    `json:"hash_info"`
+
+	//list没有get才有
+	Raw_url string      `json:"raw_url"`
+	Related interface{} `json:"related"`
 }
 
 // SearchResult 搜索结果结构体
 type SearchResult struct {
-	Path     string `json:"path"`     // 文件路径
-	Name     string `json:"name"`     // 文件名
-	Size     int64  `json:"size"`     // 文件大小
-	IsDir    bool   `json:"is_dir"`   // 是否为目录
-	Modified string `json:"modified"` // 修改时间
+	Content []struct {
+		Parent string `json:"parent"`
+		Name   string `json:"name"`   // 文件名
+		IsDir  bool   `json:"is_dir"` // 是否为目录
+		Size   int64  `json:"size"`   // 文件大小（字节）
+		Type   int64  `json:"type"`
+	}
 }
 
 // ListResponse 目录列表响应结构体
@@ -75,6 +81,10 @@ type FileInfoRequest struct {
 type SearchRequest struct {
 	Parent   string `json:"parent"`
 	Keywords string `json:"keywords"`
+	Scope    int    `json:"scope" default:"0"`
+
+	Page     int `json:"page" default:"1"`
+	Per_page int `json:"per_page" default:"50"`
 }
 
 // ListRequest 列表请求参数

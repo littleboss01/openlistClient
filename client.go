@@ -14,6 +14,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/creasty/defaults"
 )
 
 // OpenListAPI OpenList 服务客户端
@@ -290,7 +292,7 @@ func (c *OpenListAPI) GetFileInfo(filePath string) (*FileInfo, error) {
 // keyword: 搜索关键词
 // parentPath: 搜索父目录（默认 "/"）
 // 返回值: 搜索结果列表，错误信息
-func (c *OpenListAPI) SearchFiles(keyword, parentPath string) ([]SearchResult, error) {
+func (c *OpenListAPI) SearchFiles(keyword, parentPath string) (*SearchResult, error) {
 	// 先检查登录状态
 	if ok, err := c.Login(); !ok {
 		if err != nil {
@@ -309,9 +311,9 @@ func (c *OpenListAPI) SearchFiles(keyword, parentPath string) ([]SearchResult, e
 		Parent:   parentPath,
 		Keywords: keyword,
 	}
-
+	defaults.Set(&searchReq)
 	// 执行请求
-	var searchResults []SearchResult
+	var searchResults SearchResult
 	if err := c.doRequest(&HTTPRequest{
 		Method: "POST",
 		URL:    fmt.Sprintf("%s/api/fs/search", c.baseURL),
@@ -320,7 +322,7 @@ func (c *OpenListAPI) SearchFiles(keyword, parentPath string) ([]SearchResult, e
 		return nil, fmt.Errorf("搜索文件失败: %w", err)
 	}
 
-	return searchResults, nil
+	return &searchResults, nil
 }
 
 // ListFiles 列出目录下的文件/目录
@@ -396,7 +398,7 @@ func (c *OpenListAPI) DownloadFile(remotePath, localPath string, progressFunc Pr
 	}
 
 	// 创建HTTP请求
-	req, err := http.NewRequest("GET", fileInfo.URL, nil)
+	req, err := http.NewRequest("GET", fileInfo.Raw_url, nil)
 	if err != nil {
 		return fmt.Errorf("创建下载请求失败: %w", err)
 	}
