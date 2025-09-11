@@ -534,3 +534,63 @@ func (c *OpenListAPI) Mkdir(path string) error {
 
 	return nil
 }
+
+// Mkdir 创建文件夹
+// path: 新目录路径
+// 返回值: 错误信息
+func (c *OpenListAPI) Mkdirs(path string) error {
+	// 先检查登录状态
+	if ok, err := c.Login(); !ok {
+		if err != nil {
+			return fmt.Errorf("登录失败: %w", err)
+		}
+		return fmt.Errorf("登录失败，无法创建文件夹")
+	}
+
+	// 规范化路径，确保以"/"开头
+	if !strings.HasPrefix(path, "/") {
+		path = "/" + path
+	}
+
+	// 分割路径为各个组件
+	components := strings.Split(strings.Trim(path, "/"), "/")
+
+	// 逐级创建目录
+	currentPath := ""
+	for _, component := range components {
+		if component == "" {
+			continue
+		}
+
+		// 构造当前级别的完整路径
+		if currentPath == "" {
+			currentPath = "/" + component
+		} else {
+			currentPath = currentPath + "/" + component
+		}
+
+		// 检查目录是否已存在
+		_, err := c.ListFiles(currentPath, 1, 1, false)
+		if err != nil {
+			// 目录不存在，尝试创建
+			mkdirReq := MkdirRequest{
+				Path: currentPath,
+			}
+
+			// 执行请求
+			if err := c.doRequest(&HTTPRequest{
+				Method: "POST",
+				URL:    fmt.Sprintf("%s/api/fs/mkdir", c.baseURL),
+				Body:   mkdirReq,
+			}, nil); err != nil {
+				// 忽略目录已存在的错误，继续创建下一级目录
+				// 其他错误则返回
+				if !strings.Contains(err.Error(), "已存在") && !strings.Contains(err.Error(), "already exists") {
+					return fmt.Errorf("创建文件夹失败 (路径: %s): %w", currentPath, err)
+				}
+			}
+		}
+	}
+
+	return nil
+}
