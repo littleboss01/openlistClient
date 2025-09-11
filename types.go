@@ -93,3 +93,8 @@ type HTTPRequest struct {
 	Body    interface{}       // 请求体数据（会自动序列化为JSON）
 	Headers map[string]string // 请求头
 }
+
+// MkdirRequest 创建文件夹请求参数
+type MkdirRequest struct {
+	Path string `json:"path"` // 新目录路径
+}

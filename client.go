@@ -505,3 +505,32 @@ func (c *OpenListAPI) Remove(dir string, names []string) error {
 
 	return nil
 }
+
+// Mkdir 创建文件夹
+// path: 新目录路径
+// 返回值: 错误信息
+func (c *OpenListAPI) Mkdir(path string) error {
+	// 先检查登录状态
+	if ok, err := c.Login(); !ok {
+		if err != nil {
+			return fmt.Errorf("登录失败: %w", err)
+		}
+		return fmt.Errorf("登录失败，无法创建文件夹")
+	}
+
+	// 构造请求体
+	mkdirReq := MkdirRequest{
+		Path: path,
+	}
+
+	// 执行请求
+	if err := c.doRequest(&HTTPRequest{
+		Method: "POST",
+		URL:    fmt.Sprintf("%s/api/fs/mkdir", c.baseURL),
+		Body:   mkdirReq,
+	}, nil); err != nil {
+		return fmt.Errorf("创建文件夹失败: %w", err)
+	}
+
+	return nil
+}
