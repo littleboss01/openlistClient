@@ -28,9 +28,7 @@ func (c *OpenListAPI) doRequest(req *HTTPRequest, result interface{}) error {
 
 	// 设置请求头
 	httpReq.Header.Set("Content-Type", "application/json")
-	if c.getToken() != "" {
-		httpReq.Header.Set("Authorization", c.getToken())
-	}
+	httpReq.Header.Set("Authorization", c.token)
 
 	// 设置自定义请求头
 	for key, value := range req.Headers {

@@ -161,6 +161,10 @@ if _, err := api.Login(); err != nil {
 
 MIT License
 
+## 参考
+https://openlist.apifox.cn/
+https://github.com/OpenListTeam/OpenList
+
 ## 贡献
 
 欢迎提交 Issue 和 Pull Request 来改进这个项目。
