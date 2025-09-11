@@ -2,18 +2,19 @@ package test
 
 import (
 	"fmt"
+	"testing"
 
 	openlist "github.com/littleboss01/openlistClient"
 )
 
 // ClientTest 测试客户端基本功能
-func ClientTest() {
+func TestClient(t *testing.T) {
 	// 1. 创建客户端实例
 	api := openlist.NewOpenListAPI(
 		"http://localhost:5244", // OpenList服务地址
 		"admin",                 // 用户名
-		"123456",                // 密码
-		"http://127.0.0.1:8080", // 代理地址（可选，为空则不使用代理）
+		"a124149449",            // 密码
+		"",                      // 代理地址（可选，为空则不使用代理）
 	)
 
 	// 2. 测试代理（可选）
@@ -78,6 +79,6 @@ func ClientTest() {
 	if err != nil {
 		fmt.Printf("使用通用HTTP请求方法获取文件信息失败: %v\n", err)
 	} else {
-		fmt.Printf("使用通用HTTP请求方法获取文件信息成功\n", fileInfo2)
+		fmt.Println("使用通用HTTP请求方法获取文件信息成功\n", fileInfo2)
 	}
 }
