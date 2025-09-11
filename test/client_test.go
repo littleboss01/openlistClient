@@ -31,6 +31,14 @@ func TestClient(t *testing.T) {
 		return
 	}
 
+	// 7. 列出目录
+	listResp, err := api.ListFiles("/", 1, 10, true)
+	if err != nil {
+		fmt.Printf("列出目录失败: %v\n", err)
+		return
+	}
+	fmt.Printf("目录总文件数: %d，当前页: %d\n", listResp.Total, listResp.Page)
+
 	// 4. 上传文件
 	remotePath, err := api.UploadFile(
 		"/local/path/test.txt", // 本地文件路径
@@ -48,7 +56,7 @@ func TestClient(t *testing.T) {
 		fmt.Printf("获取文件信息失败: %v\n", err)
 		return
 	}
-	fmt.Printf("文件大小: %d字节，下载地址: %s\n", fileInfo.Size, fileInfo.URL)
+	fmt.Printf("文件大小: %d字节，下载地址: %s\n", fileInfo.Size, fileInfo)
 
 	// 6. 搜索文件
 	results, err := api.SearchFiles("test", "/remote/docs")
@@ -60,14 +68,6 @@ func TestClient(t *testing.T) {
 	for _, res := range results {
 		fmt.Printf("  %s (是否目录: %t)\n", res.Path, res.IsDir)
 	}
-
-	// 7. 列出目录
-	listResp, err := api.ListFiles("/remote/docs", 1, 10, true)
-	if err != nil {
-		fmt.Printf("列出目录失败: %v\n", err)
-		return
-	}
-	fmt.Printf("目录总文件数: %d，当前页: %d\n", listResp.Total, listResp.Page)
 
 	// 演示使用新的请求参数结构体
 

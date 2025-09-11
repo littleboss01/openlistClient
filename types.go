@@ -1,17 +1,23 @@
 package openlist
 
+import "time"
+
 // ProgressFunc 进度回调函数类型
 // 参数: 已下载字节数, 总字节数
 type ProgressFunc func(downloaded, total int64)
 
 // FileInfo 文件信息结构体（对应原Python的Dict返回）
 type FileInfo struct {
-	Path     string `json:"path"`     // 文件路径
-	Name     string `json:"name"`     // 文件名
-	Size     int64  `json:"size"`     // 文件大小（字节）
-	IsDir    bool   `json:"is_dir"`   // 是否为目录
-	URL      string `json:"url"`      // 下载地址
-	Modified string `json:"modified"` // 修改时间
+	Name      string    `json:"name"`     // 文件名
+	Size      int64     `json:"size"`     // 文件大小（字节）
+	IsDir     bool      `json:"is_dir"`   // 是否为目录
+	Modified  time.Time `json:"modified"` // 修改时间
+	Created   time.Time `json:"created"`
+	Sign      string    `json:"sign"`
+	Thumb     string    `json:"thumb"`
+	Type      int64     `json:"type"`
+	HashInfo  string    `json:"hashinfo"`
+	Hash_info string    `json:"hash_info"`
 }
 
 // SearchResult 搜索结果结构体
@@ -25,19 +31,19 @@ type SearchResult struct {
 
 // ListResponse 目录列表响应结构体
 type ListResponse struct {
-	Items   []FileInfo `json:"items"`    // 文件/目录列表
-	Total   int        `json:"total"`    // 总数量
-	Page    int        `json:"page"`     // 当前页码
-	PerPage int        `json:"per_page"` // 每页条数
+	Content  []FileInfo `json:"content"`  // 文件/目录列表
+	Total    int        `json:"total"`    // 总数量
+	Page     int        `json:"page"`     // 当前页码
+	PerPage  int        `json:"per_page"` // 每页条数
+	Write    bool       `json:"write"`
+	Provider string     `json:"provider"`
+	Readme   string     `json:"readme"`
+	Header   string     `json:"header"`
 }
 
 // LoginResponse 登录接口响应结构体
 type LoginResponse struct {
-	Code    int    `json:"code"`    // 状态码（200为成功）
-	Message string `json:"message"` // 描述信息
-	Data    struct {
-		Token string `json:"token"` // 登录令牌
-	} `json:"data"` // 业务数据
+	Token string `json:"token"` // 登录令牌
 }
 
 // APIResponse 通用API响应结构体（用于解析非登录接口的返回）

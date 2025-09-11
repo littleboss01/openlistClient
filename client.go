@@ -157,7 +157,7 @@ func (c *OpenListAPI) Login() (bool, error) {
 	}
 
 	// 登录成功，保存令牌
-	c.token = loginResp.Data.Token
+	c.token = loginResp.Token
 	return true, nil
 }
 

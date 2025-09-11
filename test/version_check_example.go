@@ -38,7 +38,7 @@ func VersionCheckExample() {
 
 	// 筛选出版本文件（以v开头的文件，假设版本文件命名规则为 v1.0.0.zip, v1.1.0.zip 等）
 	var versionFiles []openlist.FileInfo
-	for _, item := range listResp.Items {
+	for _, item := range listResp.Content {
 		if !item.IsDir && strings.HasPrefix(item.Name, "v") && strings.HasSuffix(item.Name, ".zip") {
 			versionFiles = append(versionFiles, item)
 		}
@@ -98,7 +98,8 @@ func findLatestVersion(files []openlist.FileInfo) *openlist.FileInfo {
 
 	// 按修改时间排序，最新的在前
 	sort.Slice(files, func(i, j int) bool {
-		return files[i].Modified > files[j].Modified
+		//return files[i].Modified > files[j].Modified
+		return files[i].Modified.After(files[j].Modified)
 	})
 
 	// 返回最新版本

@@ -81,7 +81,7 @@ func BackupExample() {
 
 	// 筛选出备份文件（以backup_开头的文件）
 	var backupFiles []openlist.FileInfo
-	for _, item := range listResp.Items {
+	for _, item := range listResp.Content {
 		if !item.IsDir && len(item.Name) > 7 && item.Name[:7] == "backup_" {
 			backupFiles = append(backupFiles, item)
 		}
@@ -93,7 +93,8 @@ func BackupExample() {
 	if len(backupFiles) > 3 {
 		// 按修改时间排序，最新的在前
 		sort.Slice(backupFiles, func(i, j int) bool {
-			return backupFiles[i].Modified > backupFiles[j].Modified
+			//return backupFiles[i].Modified > backupFiles[j].Modified
+			return backupFiles[i].Modified.After(backupFiles[j].Modified)
 		})
 
 		// 删除超过3个的旧备份文件

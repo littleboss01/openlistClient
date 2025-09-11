@@ -54,17 +54,17 @@ func (c *OpenListAPI) doRequest(req *HTTPRequest, result interface{}) error {
 	}
 
 	// 解析响应
-	// apiResp := &APIResponse{
-	// 	Data: result,
-	// }
-	if err := json.Unmarshal(respBody, result); err != nil {
+	apiResp := &APIResponse{
+		Data: result,
+	}
+	if err := json.Unmarshal(respBody, apiResp); err != nil {
 		return fmt.Errorf("解析响应失败，响应体: %s, 原因: %w", string(respBody), err)
 	}
 
 	// 检查业务状态码
-	// if apiResp.Code != 200 {
-	// 	return fmt.Errorf("API调用失败，错误码: %d, 消息: %s", apiResp.Code, apiResp.Message)
-	// }
+	if apiResp.Code != 200 {
+		return fmt.Errorf("API调用失败，错误码: %d, 消息: %s", apiResp.Code, apiResp.Message)
+	}
 
 	return nil
 }
