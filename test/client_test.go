@@ -13,7 +13,7 @@ func TestClient(t *testing.T) {
 	api := openlist.NewOpenListAPI(
 		"http://localhost:5244", // OpenList服务地址
 		"admin",                 // 用户名
-		"a124149449",            // 密码
+		"",                      // 密码
 		"http://127.0.0.1:8888", // 代理地址（可选，为空则不使用代理）
 	)
 
